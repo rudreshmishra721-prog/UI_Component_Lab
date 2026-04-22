@@ -4,7 +4,7 @@ import BasicProps from './components/BasicProps.jsx';
 import ChildrenProps from './components/ChildrenProps.jsx';
 import ComplexProps from './components/ComplexProps.jsx';
 import RefProps from './components/RefProps.jsx';
-import ThemeToggler from './components/ThemeToggler.jsx';
+import ThemeToggler, {ThemeProvider, useTheme} from './components/ThemeToggler.jsx';
 
 function Navigation(){
   const isDark = true
@@ -39,19 +39,33 @@ function Navigation(){
 }
 
 function AppContent(){
-  const isDark = true;
+ // const isDark = true;
+ const {isDark} = useTheme();
   return( 
-  <div className={'min-h-screen  bg-gray-800'}>
+  <div 
+  className={`min-h-screen  bg-gray-800 ${
+    isDark ? "bg-gray-900" : "bg-gradient-to-br from-blue-500 to-purple-50"
+  }`}
+  >
     <Navigation/>
     <div className='container mx-auto px-4 py-8'>
       <header
       className={`text-center mb-12 transition-colors 
       ${ isDark ? "text-white"  : "text-gray-800"}`}
       >
-        <h1 className='text-5xl font-bold mb-4'>React props explained</h1>
+        <h1 className='text-5xl font-bold mb-4'>React Props Explained</h1>
         <p 
         className={`text-xl ${isDark ? "text-gray-300" : "text-gray-600"}`}
         >A Comprehensive guide to understanding props in React</p>
+        <div
+            className={`mt-4 inline-block px-6 py-2 rounded-full ${
+              isDark ? "bg-gray-800" : "bg-white"
+            } shadow-md`}
+          >
+            <span className="font-semibold">
+              Built with Bun + Vite + React + Tailwind CSS
+            </span>
+          </div>
       </header>
       <div className='space-y-8'>
         <div id ="basic" className='scroll-mt-200'>
@@ -84,7 +98,9 @@ function AppContent(){
 }
 function App() {
   return (
+  <ThemeProvider>
    <AppContent/>
+  </ThemeProvider>
   );
 }
 
